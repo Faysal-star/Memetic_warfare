@@ -6,8 +6,10 @@ import { Meme } from '@/src/schemas/meme';
 import { createNetwork } from '@/src/lib/network-pipeline';
 import { createMeme } from '@/src/lib/meme-pipeline';
 import AStarVisualizer from '@/src/components/AStarVisualizer';
+import CompetitiveMode from '@/src/components/CompetitiveMode';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Swords, Target } from 'lucide-react';
 
 export default function Home() {
   // Initialize with default network and meme using useMemo
@@ -177,11 +179,28 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Main Content - A* Visualizer with 3-column layout */}
+      {/* Main Content - Mode Selection */}
       <div className="flex-1 p-4 overflow-hidden">
-        <div className="h-full">
-          <AStarVisualizer network={network} meme={meme} />
-        </div>
+        <Tabs defaultValue="astar" className="h-full flex flex-col">
+          <TabsList className="grid w-96 grid-cols-2 mb-4">
+            <TabsTrigger value="astar" className="flex items-center gap-2">
+              <Target className="w-4 h-4" />
+              A* Pathfinding
+            </TabsTrigger>
+            <TabsTrigger value="competitive" className="flex items-center gap-2">
+              <Swords className="w-4 h-4" />
+              Competitive Mode
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="astar" className="flex-1 m-0 data-[state=active]:flex">
+            <AStarVisualizer network={network} meme={meme} />
+          </TabsContent>
+
+          <TabsContent value="competitive" className="flex-1 m-0 data-[state=active]:flex">
+            <CompetitiveMode network={network} meme={meme} />
+          </TabsContent>
+        </Tabs>
       </div>
     </main>
   );

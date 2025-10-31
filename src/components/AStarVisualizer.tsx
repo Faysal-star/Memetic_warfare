@@ -32,6 +32,8 @@ export default function AStarVisualizer({ network, meme }: AStarVisualizerProps)
     cost: number;
     mode: AStarMode;
     pathExplanations?: string[];
+    exploredCount?: number;
+    frames?: AStarFrame[];
   } | null>(null);
   const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
   const [mode, setMode] = useState<AStarMode>('meme_trust');
@@ -320,7 +322,7 @@ export default function AStarVisualizer({ network, meme }: AStarVisualizerProps)
                     </div>
                     <div className="flex justify-between">
                       <span>Explored:</span>
-                      <span className="font-mono">{result.exploredCount} nodes</span>
+                      <span className="font-mono">{result.exploredCount || 0} nodes</span>
                     </div>
                   </div>
                 </div>
@@ -451,14 +453,49 @@ export default function AStarVisualizer({ network, meme }: AStarVisualizerProps)
           <CardHeader>
             <CardTitle className="text-sm">Path Cost Breakdown</CardTitle>
           </CardHeader>
-          <CardContent className="space-y-2 max-h-96 overflow-y-auto">
-            {result.pathExplanations.map((exp, idx) => (
-              <div key={idx} className="p-2 bg-gray-50 rounded border">
-                <pre className="whitespace-pre-wrap font-mono text-[10px] text-gray-700">
-                  {exp}
-                </pre>
+          <CardContent className="space-y-3 max-h-96 overflow-y-auto">
+            {/* Final Optimized Path */}
+            <div className="p-3 bg-blue-50 border-2 border-blue-300 rounded-lg">
+              <div className="font-semibold text-blue-900 text-xs mb-2">
+                Final Optimized Path
               </div>
-            ))}
+              <div className="space-y-2">
+                {result.path.slice(0, -1).map((nodeId, idx) => {
+                  const nextNode = result.path[idx + 1];
+                  const explanation = result.pathExplanations?.find(exp => 
+                    exp.startsWith(`${nodeId} → ${nextNode}:`)
+                  );
+                  return (
+                    <div key={idx} className="p-2 bg-white rounded border border-blue-200">
+                      <div className="font-semibold text-xs text-blue-900 mb-1">
+                        {nodeId} → {nextNode}
+                      </div>
+                      {explanation && (
+                        <pre className="whitespace-pre-wrap font-mono text-[9px] text-gray-700">
+                          {explanation.split('\n').slice(1).join('\n')}
+                        </pre>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* All Explored Paths (Collapsible) */}
+            <details className="border rounded-lg">
+              <summary className="p-2 bg-gray-100 cursor-pointer hover:bg-gray-200 text-xs font-semibold">
+                View All Explored Paths ({result.pathExplanations.length} edges)
+              </summary>
+              <div className="p-2 space-y-2 max-h-60 overflow-y-auto">
+                {result.pathExplanations.map((exp, idx) => (
+                  <div key={idx} className="p-2 bg-gray-50 rounded border">
+                    <pre className="whitespace-pre-wrap font-mono text-[10px] text-gray-700">
+                      {exp}
+                    </pre>
+                  </div>
+                ))}
+              </div>
+            </details>
           </CardContent>
         </Card>
       ) : (

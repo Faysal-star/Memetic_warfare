@@ -1,438 +1,359 @@
 # Memetic Warfare - Development Progress
 
-## Project Overview
-AI-driven information spreading simulation demonstrating network propagation, A* pathfinding, and social influence dynamics.
+**Last Updated**: October 31, 2025
 
-## Tech Stack
-- **Framework**: Next.js 15 with TypeScript
-- **UI**: shadcn/ui components
-- **Visualization**: react-force-graph-2d
-- **State Management**: Zustand
-- **Algorithms**: Custom implementations (A*, network generation, propagation)
+## Current Status: ✅ PHASE 3 COMPLETE - Competitive Mode Fully Functional
 
----
-
-## Completed Tasks
-
-### Phase 1: Project Setup & Core Infrastructure ✓
-- [x] Installed dependencies (react-force-graph-2d, d3, zustand)
-- [x] Created modular folder structure
-  - `src/schemas/` - Type definitions
-  - `src/algorithms/` - Core algorithms
-  - `src/lib/` - Pipeline functions
-  - `src/api/dummy/` - Mock data
-  - `src/components/` - React components
-
-### Phase 2: Schema Definitions ✓
-- [x] **node.ts**: Node schema with identity classes, attributes, trust networks
-  - 5 identity classes: Urban Professional, University Student, Rural Traditional, Suburban Family, Tech Worker
-  - Attributes: political_leaning, critical_thinking, emotional_susceptibility, education_level, social_activity
-  - Node states: susceptible, exposed, infected, resistant
-
-- [x] **meme.ts**: Meme schema with content types and attributes
-  - Content types: political_conspiracy, health_misinformation, factual_news, neutral
-  - Attributes: political_bias, emotional_intensity, factual_accuracy, complexity, virality_factor, source_credibility
-
-- [x] **network.ts**: Network structure and configuration
-  - Network types: small-world, scale-free, random
-  - Edge structure with trust weights
-
-### Phase 3: Core Algorithms ✓
-- [x] **network-generation.ts**: Network topology generation
-  - Random networks (Erdős-Rényi)
-  - Small-world networks (Watts-Strogatz)
-  - Scale-free networks (Barabási-Albert)
-  - Trust weight calculation based on homophily and political alignment
-
-- [x] **propagation.ts**: Information spread mechanics
-  - Acceptance probability calculation (trust, alignment, critical thinking, virality)
-  - Transmission probability calculation (social activity, virality, novelty)
-  - Step-by-step propagation simulation
-
-- [x] **astar.ts**: A* pathfinding for influence paths
-  - Priority queue implementation
-  - Admissible heuristic (trust distance + belief gap + resistance)
-  - Frame-by-frame visualization data generation
-
-### Phase 4: Pipeline Functions ✓
-- [x] **network-pipeline.ts**: High-level network operations
-  - Default configuration
-  - Network creation and reset
-  - Statistics calculation
-
-- [x] **meme-pipeline.ts**: High-level meme operations
-  - Meme creation from presets
-  - Meme variant generation (mutations)
-  - Preset management
-
-### Phase 5: API Routes & Data ✓
-- [x] **Dummy JSON data**:
-  - `networks.json`: 4 network presets (small, medium, large, polarized)
-  - `memes.json`: 5 example memes with varying attributes
-
-- [x] **API Routes**:
-  - `GET /api/network`: List presets or generate network
-  - `POST /api/network`: Generate custom network
-  - `GET /api/meme`: List memes or get specific meme
-  - `POST /api/meme`: Create custom meme
-
-### Phase 6: Visualization Components ✓
-- [x] **NetworkVisualizer.tsx**: Interactive network graph
-  - Force-directed layout
-  - Color-coded node states (gray/yellow/red/green)
-  - Node size based on social activity
-  - Hover tooltips with detailed node information
-  - Clickable nodes with callback support
-  - Edge thickness based on trust weights
-  - Highlighted nodes and edges support
-  - Legend for node states
-
-- [x] **AStarVisualizer.tsx**: A* algorithm visualization
-  - Start/end node selection via clicks
-  - Run A* algorithm with visualization
-  - Frame-by-frame playback controls (play/pause/step)
-  - Animation speed control
-  - Path highlighting
-  - Algorithm state display (explored, frontier, current node)
-  - Success/failure result display with cost and path
+All core features are implemented and working:
+- ✅ Network generation with multiple topologies
+- ✅ Meme creation and management
+- ✅ Network visualization with force-directed layout
+- ✅ A* algorithm with start/end node selection
+- ✅ Interactive visualization with step-by-step animation
+- ✅ Two trust calculation modes (Social Trust & Meme Trust)
+- ✅ Detailed path cost breakdowns and explanations
+- ✅ SSR fix for react-force-graph-2d
+- ✅ Graph stability improvements (no unwanted resets)
+- ✅ 3-column responsive layout
+- ✅ **Competitive Mode: Attacker vs Defender AI**
+- ✅ **Meme Mutation System**
+- ✅ **Real-time Event Logging**
+- ✅ **Enhanced Path Cost Breakdown with Final Path Highlight**
 
 ---
 
-## Project Structure
-```
-memetic/
-├── src/
-│   ├── schemas/
-│   │   ├── node.ts           # Node type definitions
-│   │   ├── meme.ts           # Meme type definitions
-│   │   └── network.ts        # Network type definitions
-│   ├── algorithms/
-│   │   ├── network-generation.ts  # Network topology algorithms
-│   │   ├── propagation.ts         # Meme spread mechanics
-│   │   └── astar.ts              # A* pathfinding
-│   ├── lib/
-│   │   ├── network-pipeline.ts   # Network utilities
-│   │   └── meme-pipeline.ts      # Meme utilities
-│   ├── api/
-│   │   └── dummy/
-│   │       ├── networks.json     # Network presets
-│   │       └── memes.json        # Meme examples
-│   └── components/
-│       ├── NetworkVisualizer.tsx # Interactive network graph
-│       └── AStarVisualizer.tsx   # A* visualization UI
-├── app/
-│   └── api/
-│       ├── network/route.ts      # Network API endpoints
-│       └── meme/route.ts         # Meme API endpoints
-└── progress.md                   # This file
-```
+## PHASE 3: COMPETITIVE MODE (October 31, 2025)
 
-### Phase 7: Main Application Page ✓
-- [x] Created interactive demo page with A* visualization
-- [x] Network configuration controls (type selection)
-- [x] Meme selection interface with presets
-- [x] Tabbed configuration panel
-- [x] Real-time statistics display
-- [x] Instructions and documentation
+### Completed Tasks
 
----
+#### 1. Enhanced Path Cost Breakdown UI ✅
+**Problem**: User requested to show final optimized path separately with calculations
+**Solution**: 
+- Added blue-highlighted section showing only the final path nodes
+- Each connection displays its detailed calculation
+- All explored paths moved to collapsible section
+- Improved visual hierarchy and readability
 
-## Current Status
+**Files Modified**:
+- `src/components/AStarVisualizer.tsx` - Enhanced path breakdown display
 
-### ✅ Fully Functional
-The core application is **ready to use** with the following capabilities:
+#### 2. Game State Schema ✅
+**Task**: Create data structures for competitive gameplay
+**Implementation**:
+- `GameState`: Network state, infected/resistant nodes, turn management
+- `GameMove`: Move history with success tracking
+- `GameEvent`: Event logging system
+- `GameConfig`: Configurable game parameters
 
-1. **Network Generation**: Generate networks with different topologies on-the-fly
-2. **A* Pathfinding**: Full visualization with step-by-step playback
-3. **Interactive Graph**: Click nodes, hover for details, see state colors
-4. **API Integration**: RESTful endpoints for data access
-5. **Modular Architecture**: Easy to extend and debug
+**Files Created**:
+- `src/schemas/game-state.ts` - Complete game state definitions
 
-### 🎯 Testing Instructions
+#### 3. Game Engine ✅
+**Task**: Implement core game mechanics
+**Implementation**:
+- `initializeGame()`: Setup game with network and meme
+- `mutateMeme()`: AI can mutate memes to increase acceptance (per The_plan.md)
+  - Increases virality, emotional intensity
+  - Adjusts political bias towards target
+  - Simplifies complexity for broader appeal
+  - Reduces factual accuracy slightly
+- `executeAttackerMove()`: Handle infection and mutation moves
+- `executeDefenderMove()`: Handle fact-checking and inoculation
+- `checkWinCondition()`: Determine game outcome
+- `getPossibleMoves()`: Generate valid moves for AI
 
-Run the development server:
-```bash
-npm run dev
-```
-
-Then:
-1. Open http://localhost:3000
-2. Select a start node by clicking
-3. Select an end node by clicking
-4. Click "Run A* Algorithm"
-5. Watch the algorithm find the optimal influence path
-6. Use playback controls to step through frames
-7. Try different network types and meme attributes
-
----
-
-## Next Steps (Future Enhancements)
-
-### Phase 8: Full Propagation Simulation
-- [ ] Real-time meme spread visualization
-- [ ] Simulation playback controls
-- [ ] Metrics dashboard (infection rate, reach, etc.)
-- [ ] Event log with AI decisions
-
-### Phase 9: Competitive Mode
-- [ ] Minimax/Alpha-Beta visualization
-- [ ] Attacker vs Defender gameplay
-- [ ] Game tree display
-- [ ] Strategy comparison
-
-### Phase 10: Advanced AI
-- [ ] CELF algorithm (greedy seed selection)
-- [ ] Multiple seed selection strategies
-- [ ] Defender AI implementations
-- [ ] Strategy effectiveness metrics
-
-### Phase 11: Polish & Features
-- [ ] Meme mutation visualization
-- [ ] Save/load simulation states
-- [ ] Export network/results
-- [ ] Performance optimizations
-- [ ] Mobile responsive design
-
----
-
-## Technical Notes
-
-### Performance
-- Network generation: <100ms for 50 nodes
-- A* pathfinding: <50ms for typical graphs
-- Visualization: 60fps for networks up to 100 nodes
-- React-force-graph handles layout efficiently
-
-### Modularity
-Each component can be developed/tested independently:
-- Algorithms are pure functions
-- Components are self-contained
-- API routes are stateless
-- Schemas are centralized
-
-### Debugging Tips
-- Use browser DevTools to inspect network state
-- Check console for algorithm outputs
-- Frame-by-frame mode shows exact A* behavior
-- Hover tooltips display all node attributes
-
----
-
-## Known Issues & Fixes
-
-### Fixed
-- ✓ React effect warning (moved to useMemo)
-- ✓ Missing shadcn components (installed)
-- ✓ TypeScript type errors (resolved)
-- ✓ Linter errors (fixed)
-
-### None Currently
-All linter checks pass, no runtime errors.
-
----
-
-## Files Created/Modified
-
-### Created (17 files)
-1. src/schemas/node.ts
-2. src/schemas/meme.ts
-3. src/schemas/network.ts
-4. src/algorithms/network-generation.ts
-5. src/algorithms/propagation.ts
-6. src/algorithms/astar.ts
-7. src/lib/network-pipeline.ts
-8. src/lib/meme-pipeline.ts
-9. src/api/dummy/networks.json
-10. src/api/dummy/memes.json
-11. app/api/network/route.ts
-12. app/api/meme/route.ts
-13. src/components/NetworkVisualizer.tsx
-14. src/components/AStarVisualizer.tsx
-15. progress.md
-16. README.md
-
-### Modified
-- app/page.tsx (main demo page)
-- package.json (dependencies added)
-
-### Auto-generated by shadcn
-- components/ui/button.tsx
-- components/ui/card.tsx
-- components/ui/tabs.tsx
-- components/ui/slider.tsx
-
----
-
-## Dependencies Added
-```json
-{
-  "react-force-graph-2d": "^1.x",
-  "react-force-graph-3d": "^3.x",
-  "d3": "^7.x",
-  "zustand": "^4.x"
-}
-```
-
----
-
-## Recent Fixes (2025-10-31)
-
-### Fixed Issues
-1. ✓ **SSR Error**: Fixed "window is not defined" by using dynamic import with `ssr: false` for ForceGraph2D
-2. ✓ **Graph Congestion**: Removed hover-triggered zoom, improved force parameters (d3AlphaDecay, d3VelocityDecay)
-3. ✓ **Layout Issues**: Implemented 3-column responsive layout:
-   - Left: Control panel (25% width, scrollable)
-   - Middle: Network visualizer (50% width, full height)
-   - Right: Info and node details (25% width, scrollable)
-4. ✓ **Better Visualization**: 
-   - Removed floating tooltips that caused congestion
-   - Added dedicated info panel on right side
-   - Improved spacing and sizing for all panels
-   - Better visual hierarchy with cards and sections
-5. ✓ **Graph Reset on Hover**: Fixed graph resetting/re-spreading on every hover
-   - Memoized graphData to prevent recreation on each render
-   - Added stable key prop to ForceGraph2D (network.metadata.created_at)
-   - Optimized warmupTicks and cooldownTime for faster stabilization
-   - Callbacks properly memoized with correct dependencies
-
-### Code Changes
-- `NetworkVisualizer.tsx`: Dynamic import, memoized graphData, stable key, NodeInfoPanel component
-- `AStarVisualizer.tsx`: 3-column grid layout (col-span-3, col-span-6, col-span-3)
-- `app/page.tsx`: Fullscreen layout with header and config bar
-- `app/api/network/route.ts`: Fixed TypeScript build error
-
----
-
-## A* Algorithm Enhancement (2025-10-31)
-
-### Implemented Two-Mode A* System
-
-**Problem**: Original A* didn't properly account for all node/meme trust parameters
-
-**Solution**: Comprehensive two-mode system with realistic trust modeling
-
-#### Mode 1: Social Trust
-- Pure node-to-node trust pathfinding
-- Ignores meme content
-- Considers:
-  - Base trust weight
-  - Identity similarity (homophily)
-  - Political alignment
-  - Social activity levels
-
-#### Mode 2: Meme Trust (Comprehensive)
-- Full meme acceptance modeling
-- Considers **all** parameters:
-  
-  **Node Attributes**:
-  - Political leaning vs meme bias alignment
-  - Critical thinking (filters low-accuracy memes)
-  - Education level (understands complexity)
-  - Emotional susceptibility (viral content)
-  - Social activity
-  
-  **Meme Attributes**:
-  - Political bias
-  - Factual accuracy
-  - Complexity
-  - Virality factor
-  - Source credibility
-  - Emotional intensity
-  
-  **Trust Dynamics**:
-  - Node-to-node trust weight
-  - Combined acceptance probability
-  - Realistic thresholds (0.05-0.95)
-
-#### Cost Functions
+**Meme Mutation Details**:
 ```typescript
-// Social Trust: baseCost × identity × political × activity
-// Meme Trust: 1 - (receptivity × trust × alignment × virality × credibility)
+// Adjusts attributes to better match target
+- Political bias: Moves 30% towards target's political leaning
+- Emotional intensity: +15% (max 1.0)
+- Virality factor: +15% (max 1.0)
+- Complexity: -15% (simpler = more viral)
+- Factual accuracy: -7.5% (trade-off for virality)
+- Source credibility: +7.5% (appears more legitimate)
 ```
 
-#### Features Added
-- Mode selector UI (Social Trust / Meme Trust buttons)
-- Path cost explanations (detailed breakdown per step)
-- Expandable details showing acceptance factors
-- Mode-specific heuristics (admissible for both)
+**Files Created**:
+- `src/algorithms/game-engine.ts` - Core game logic (242 lines)
 
-#### Files Created/Modified
-- **NEW**: `src/algorithms/astar-modes.ts` - Cost/heuristic functions
-- **UPDATED**: `src/algorithms/astar.ts` - Mode support
-- **UPDATED**: `src/components/AStarVisualizer.tsx` - UI mode selector
-- **NEW**: `docs/ASTAR_MODES.md` - Comprehensive documentation
+#### 4. AI Strategies ✅
+**Task**: Implement attacker and defender AI algorithms
+**Implementation**:
 
-#### Validation
-✅ Social Trust finds shortest social network path
-✅ Meme Trust considers all acceptance factors
-✅ High critical thinking blocks false information
-✅ Political misalignment increases cost
-✅ Viral content reduces cost for emotional people
-✅ Source credibility matters
-✅ Education vs complexity matching works
+**Attacker Strategies**:
+- `greedy_degree`: Target high-degree nodes (hubs) - maximizes potential spread
+- `high_susceptibility`: Target most emotionally susceptible nodes - highest success rate
+- `bridge_targeting`: Target nodes connecting different communities - cross-group spread
+
+**Defender Strategies**:
+- `reactive`: Fact-check and inoculate highest-threat nodes - responds to infections
+- `proactive`: Preemptively inoculate high-degree nodes - prevents spread
+- `bridge_protection`: Protect inter-community bridges - contains spread
+
+**Strategy Selection**:
+- AI automatically selects moves based on chosen strategy
+- Each strategy evaluates all possible moves and selects the best
+- Strategies consider node attributes, network topology, and acceptance probability
+
+**Files Created**:
+- `src/algorithms/ai-strategies.ts` - AI decision-making logic (244 lines)
+
+#### 5. Competitive Mode UI ✅
+**Task**: Create visualization for AI vs AI gameplay
+**Implementation**:
+- **Left Panel** (25%): Game controls, status, budgets, win conditions
+  - Turn counter and current player indicator
+  - Infection rate tracking
+  - Attacker/Defender budget display
+  - Play/Pause/Step/Reset controls
+  - Strategy selection dropdowns
+  - Game over announcement
+  
+- **Middle Panel** (50%): Network visualization with real-time state updates
+  - Infected nodes highlighted in red
+  - Resistant nodes highlighted in blue
+  - Real-time network state updates
+  - Same force-directed layout as A* mode
+  
+- **Right Panel** (25%): Node info and event log
+  - Hovered node information
+  - Chronological event log (latest first)
+  - Color-coded events (red = attacker, blue = defender)
+  - Move success/failure indicators
+  - Acceptance probability shown
+
+**Visual Features**:
+- Color-coded event log entries
+- Infected/resistant node highlighting on graph
+- Turn indicator with sword/shield icons
+- Budget tracking with color coding
+- Win condition display
+- Trophy icon for game winner
+
+**Auto-Play Features**:
+- Adjustable speed (default 1000ms per turn)
+- Pause/resume functionality
+- Step-by-step manual mode
+- Automatic game over detection
+
+**Files Created**:
+- `src/components/CompetitiveMode.tsx` - Complete competitive mode UI (254 lines)
+
+#### 6. Main Page Integration ✅
+**Task**: Add mode switcher between A* and Competitive modes
+**Implementation**:
+- Tab-based navigation with icons (Target for A*, Swords for Competitive)
+- Seamless switching between modes
+- Both modes use same network/meme configuration
+- Shared network generation controls
+- Mode selection persists during session
+
+**Files Modified**:
+- `app/page.tsx` - Added tabs for mode switching
 
 ---
 
-## UI/UX Enhancements (2025-10-31)
+## RECENT FIXES (Latest Session)
 
-### Added Interactive View Controls
+### UI Layout Improvements ✅
+**Problem**: Competitive mode had 3 panels (control, network, event log), right panel was too cramped
+**Solution**: Changed to 4-panel layout
+- **Left Panel (col-span-2)**: Game controls and strategy selection
+- **Middle Panel (col-span-6)**: Network visualization (50% width)
+- **Right Panel (col-span-2)**: Node information on hover
+- **Far Right Panel (col-span-2)**: Event log
 
-**Features Implemented**:
+**Result**: Better space distribution, node info and event log are side-by-side
 
-1. **Identity-Based Node Coloring**
-   - Toggle between "By State" and "By Identity" coloring
-   - 5 distinct colors for identity classes:
-     - Urban Professional: Blue (#3B82F6)
-     - University Student: Purple (#8B5CF6)
-     - Rural Traditional: Amber (#F59E0B)
-     - Suburban Family: Green (#10B981)
-     - Tech Worker: Pink (#EC4899)
-   - Dynamic legend updates based on mode
+### Real-Time Visualization Fixes ✅
+**Problem**: 
+1. When attacker attacks a node, no visual indication
+2. Defender moves not visually distinct
+3. Infected/resistant colors not updating in real-time during simulation
 
-2. **Path Cost Breakdown Panel**
-   - Toggle between "Node Info" and "Path Costs" in right panel
-   - Full path cost breakdown with detailed explanations
-   - Shows step-by-step cost calculation for each edge
-   - Scrollable view for long paths
+**Solution**:
+1. Added `lastMoveNodeId` state to track current move
+2. Modified `NetworkVisualizer` to accept `competitiveMode` prop with:
+   - `infectedNodes`: Set of infected node IDs
+   - `resistantNodes`: Set of resistant node IDs
+   - `lastMoveNodeId`: Currently targeted node
+   - `currentPlayer`: 'attacker' or 'defender'
+3. Updated node rendering logic:
+   - **Infected nodes**: Red (#EF4444)
+   - **Resistant nodes**: Green (#22C55E)
+   - **Susceptible nodes**: Gray (#9CA3AF)
+   - **Attacker's target**: Thick dark red border (#DC2626)
+   - **Defender's target**: Thick dark green border (#16A34A)
+4. Border highlights persist for 1.5 seconds after move
 
-3. **Enhanced Result Display**
-   - Total explored nodes count
-   - Total path cost
-   - Path length
-   - Mode indicator (Social Trust / Meme Trust)
-   - All metrics visible at once
+**Result**: Clear visual feedback for every move, real-time color updates, distinct attacker/defender highlights
 
-4. **Toggle-Style UI**
-   - Clean button-based toggles (no dropdowns)
-   - Visual active state (blue border + background)
-   - Grouped by function (Colors, Information Display)
-   - Responsive and intuitive
-
-### Layout
-```
-Right Panel:
-┌─────────────────────────┐
-│  View Options           │
-│  ┌────────┬──────────┐  │
-│  │By State│By Identity│  │  ← Color Toggle
-│  └────────┴──────────┘  │
-│  ┌─────────┬──────────┐ │
-│  │Node Info│Path Costs│  │  ← Info Toggle
-│  └─────────┴──────────┘ │
-├─────────────────────────┤
-│  [Node Info/Path Costs] │  ← Dynamic Content
-│  • Detailed breakdown   │
-│  • Scrollable           │
-│  • Formatted            │
-└─────────────────────────┘
-```
-
-### Files Modified
-- `src/components/NetworkVisualizer.tsx`: Identity colors, dynamic legend
-- `src/components/AStarVisualizer.tsx`: View toggles, conditional display
+**Files Modified**:
+- `src/components/CompetitiveMode.tsx`: Added lastMoveNodeId tracking, 4-panel layout
+- `src/components/NetworkVisualizer.tsx`: Added competitiveMode prop, updated node rendering
 
 ---
 
-*Last Updated: 2025-10-31*
-*Status: Core features complete with realistic trust modeling and enhanced UX*
+## KEY FEATURES IMPLEMENTED
 
+### Competitive Mode Gameplay
+1. **Turn-Based AI Combat**: Attacker tries to spread misinformation, Defender tries to contain it
+2. **Meme Mutation**: Attacker can mutate memes to increase acceptance probability
+   - Adjusts political bias towards target (30% movement)
+   - Increases emotional intensity (+15%) and virality (+15%)
+   - Reduces complexity (-15%) for broader appeal
+   - Slight accuracy decrease (-7.5%) for virality boost
+3. **Multiple AI Strategies**: 3 attacker × 3 defender = 9 different matchups
+4. **Real-Time Visualization**: Watch the network change as AI agents make decisions
+5. **Event Logging**: Complete history of all moves and their outcomes
+6. **Win Conditions**: 
+   - Attacker wins at 60% infection rate
+   - Defender wins by keeping infection below threshold for 20 turns
+   - Defender wins if attacker runs out of budget
+
+### A* Pathfinding Mode
+1. **Two Trust Modes**: 
+   - Social Trust: Based purely on personal relationships
+   - Meme Trust: Incorporates meme attributes and acceptance probability
+2. **Step-by-Step Visualization**: Watch A* explore the network
+3. **Detailed Cost Breakdown**: 
+   - Final optimized path shown prominently in blue highlight
+   - Each edge shows complete calculation details
+   - All explored paths available in collapsible section
+4. **Interactive Node Selection**: Click to set start/end nodes
+5. **Real-Time Metrics**: Explored nodes count, total cost, path length
+
+---
+
+## ARCHITECTURE OVERVIEW
+
+```
+src/
+├── algorithms/
+│   ├── astar.ts              # A* pathfinding implementation (236 lines)
+│   ├── astar-modes.ts        # Trust calculation modes (195 lines)
+│   ├── network-generation.ts # Network topology generation (277 lines)
+│   ├── propagation.ts        # Meme spread simulation (156 lines)
+│   ├── game-engine.ts        # Competitive mode game logic (242 lines) ✨ NEW
+│   └── ai-strategies.ts      # Attacker & Defender AI (244 lines) ✨ NEW
+├── schemas/
+│   ├── network.ts            # Network data structure (33 lines)
+│   ├── node.ts               # Node attributes & state (84 lines)
+│   ├── meme.ts               # Meme attributes (65 lines)
+│   └── game-state.ts         # Game state management (45 lines) ✨ NEW
+├── components/
+│   ├── AStarVisualizer.tsx   # A* mode UI (531 lines)
+│   ├── CompetitiveMode.tsx   # Competitive mode UI (254 lines) ✨ NEW
+│   └── NetworkVisualizer.tsx # Force-directed graph (268 lines)
+└── lib/
+    ├── network-pipeline.ts   # Network utilities (82 lines)
+    └── meme-pipeline.ts      # Meme utilities (91 lines)
+```
+
+**Total Lines of Code**: ~2,800 lines
+**New Code (Phase 3)**: ~900 lines
+
+---
+
+## TECHNICAL HIGHLIGHTS
+
+### Competitive Mode Implementation
+1. **Game Loop**: Turn-based system with AI decision-making
+2. **State Management**: Immutable state updates for predictable behavior
+3. **Move Validation**: Ensures only legal moves are executed
+4. **Probabilistic Outcomes**: Moves have success probability based on acceptance calculation
+5. **Real-Time Updates**: React state triggers immediate UI updates
+6. **Event System**: Complete audit trail of all actions
+
+### AI Strategy System
+1. **Modular Design**: Easy to add new strategies
+2. **Node Evaluation**: Strategies evaluate all possible moves
+3. **Heuristic-Based**: Use network properties and node attributes
+4. **Acceptance-Aware**: Calculate success probability for each move
+5. **Defensive Balance**: Fact-checking vs inoculation tradeoff
+
+### Meme Mutation System
+1. **Dynamic Adaptation**: Memes evolve to target specific nodes
+2. **Realistic Trade-offs**: Virality vs accuracy
+3. **Generational Tracking**: Each mutation increments generation counter
+4. **Parent Tracking**: Maintains mutation lineage
+
+---
+
+## FIXES APPLIED
+
+### A* Path Breakdown Enhancement
+- **Issue**: User wanted final path highlighted separately
+- **Fix**: Added blue-highlighted final path section with individual edge calculations
+- **Impact**: Improved clarity and UX for understanding A* results
+
+### TypeScript Interface Updates
+- **Issue**: Result type didn't include exploredCount
+- **Fix**: Added optional exploredCount field to result interface
+- **Impact**: Proper type safety for result display
+
+---
+
+## DEVELOPMENT HISTORY
+
+### Phase 1: Foundation (Initial)
+- Project setup with Next.js, TypeScript, shadcn/ui
+- Schema definitions (Node, Meme, Network)
+- Basic network generation algorithms
+- Meme propagation logic
+
+### Phase 2: A* Implementation (Previous)
+- A* algorithm with two trust modes
+- Interactive visualization
+- Step-by-step animation
+- Cost breakdown and explanations
+- 3-column responsive layout
+- SSR fixes and stability improvements
+
+### Phase 3: Competitive Mode (Current) ✅
+- Game engine and state management
+- Attacker vs Defender AI
+- Meme mutation system
+- Event logging
+- Real-time gameplay visualization
+- Enhanced path cost breakdown
+
+---
+
+## NEXT STEPS (Future Enhancements)
+
+### Potential Additions
+1. **Minimax/Alpha-Beta Mode**: Game tree visualization (per Algorithm_Integration.md)
+2. **Logic-Based Reasoning Mode**: Belief system analysis (per Algorithm_Integration.md)
+3. **Match Replay**: Save and replay competitive matches
+4. **Tournament Mode**: Multiple AI matchups with rankings
+5. **Advanced Analytics**: Post-game statistics and insights
+6. **Custom AI Strategies**: Allow users to define strategies
+7. **Network Persistence**: Save/load network configurations
+8. **Meme Evolution Tree**: Visualize mutation lineage
+
+### Performance Optimizations
+1. **Web Workers**: Offload AI calculations
+2. **Graph Optimization**: Improve rendering for large networks
+3. **State Persistence**: Save game state to localStorage
+4. **Animation Optimization**: Reduce re-renders during gameplay
+
+---
+
+## PROJECT METRICS
+
+- **Total Components**: 3 major visualizers
+- **Total Algorithms**: 6 (A*, network generation, propagation, game engine, 6 AI strategies)
+- **Supported Network Types**: 3 (small-world, scale-free, random)
+- **Identity Classes**: 5 distinct profiles
+- **Meme Types**: 3 presets + mutation system
+- **AI Strategies**: 6 total (3 attacker + 3 defender)
+- **Game Modes**: 2 (A* Pathfinding, Competitive)
+- **Build Status**: ✅ Compiles without errors
+- **Type Safety**: 100% TypeScript
+
+---
+
+*Last Updated: October 31, 2025*
+*Status: Phase 3 Complete - Competitive Mode Fully Implemented*
+*Build: ✅ Successful*

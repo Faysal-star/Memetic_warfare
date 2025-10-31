@@ -12,6 +12,13 @@ const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), {
   ssr: false,
 });
 
+interface CompetitiveModeData {
+  infectedNodes: Set<string>;
+  resistantNodes: Set<string>;
+  lastMoveNodeId: string | null;
+  currentPlayer: 'attacker' | 'defender';
+}
+
 interface NetworkVisualizerProps {
   network: Network;
   onNodeClick?: (node: Node) => void;
@@ -19,6 +26,7 @@ interface NetworkVisualizerProps {
   highlightedNodes?: Set<string>;
   highlightedEdges?: Array<{ source: string; target: string }>;
   colorByIdentity?: boolean;
+  competitiveMode?: CompetitiveModeData;
 }
 
 interface GraphData {
@@ -48,6 +56,7 @@ export default function NetworkVisualizer({
   highlightedNodes = new Set(),
   highlightedEdges = [],
   colorByIdentity = false,
+  competitiveMode,
 }: NetworkVisualizerProps) {
   const graphRef = useRef<ForceGraphMethods | undefined>(undefined);
   const [hoveredNode, setHoveredNode] = useState<Node | null>(null);
@@ -92,13 +101,51 @@ export default function NetworkVisualizer({
       const fontSize = 12 / globalScale;
       const nodeSize = 5 + (n.attributes.social_activity * 5);
       
-      // Node color based on mode
-      const color = colorByIdentity 
-        ? IDENTITY_COLORS[n.identity_class]
-        : STATE_COLORS[n.state];
-      
-      // Highlight if selected
-      const isHighlighted = highlightedNodes.has(n.id);
+      // Determine node color and border
+      let color = '#9CA3AF'; // Default gray
+      let borderColor = '#ffffff';
+      let borderWidth = 0;
+
+      // Competitive mode coloring (takes priority)
+      if (competitiveMode) {
+        if (competitiveMode.infectedNodes.has(n.id)) {
+          color = '#EF4444'; // Red for infected
+        } else if (competitiveMode.resistantNodes.has(n.id)) {
+          color = '#22C55E'; // Green for resistant
+        } else {
+          color = '#9CA3AF'; // Gray for susceptible
+        }
+
+        // Highlight last move with thick border
+        if (competitiveMode.lastMoveNodeId === n.id) {
+          if (competitiveMode.currentPlayer === 'attacker') {
+            borderColor = '#DC2626'; // Dark red border for attacker move
+            borderWidth = 4;
+          } else {
+            borderColor = '#16A34A'; // Dark green border for defender move
+            borderWidth = 4;
+          }
+        }
+      } else {
+        // A* mode: use identity or state colors
+        color = colorByIdentity 
+          ? IDENTITY_COLORS[n.identity_class]
+          : STATE_COLORS[n.state];
+        
+        // Highlight if selected
+        if (highlightedNodes.has(n.id)) {
+          borderColor = '#000000';
+          borderWidth = 2;
+        }
+      }
+
+      // Hovered node (overrides color)
+      if (hoveredNode?.id === n.id) {
+        color = '#F59E0B'; // Orange for hovered
+        if (borderWidth === 0) {
+          borderWidth = 2;
+        }
+      }
       
       // Draw node
       ctx.beginPath();
@@ -106,15 +153,15 @@ export default function NetworkVisualizer({
       ctx.fillStyle = color;
       ctx.fill();
       
-      // Border for highlighted nodes
-      if (isHighlighted) {
-        ctx.strokeStyle = '#000000';
-        ctx.lineWidth = 2 / globalScale;
+      // Border if needed
+      if (borderWidth > 0) {
+        ctx.strokeStyle = borderColor;
+        ctx.lineWidth = borderWidth / globalScale;
         ctx.stroke();
       }
       
-      // Draw label on hover
-      if (hoveredNode?.id === n.id) {
+      // Draw label on hover or for last move
+      if (hoveredNode?.id === n.id || (competitiveMode && competitiveMode.lastMoveNodeId === n.id)) {
         ctx.font = `${fontSize}px Sans-Serif`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
@@ -122,7 +169,7 @@ export default function NetworkVisualizer({
         ctx.fillText(label, node.x!, node.y! + nodeSize + 10);
       }
     },
-    [highlightedNodes, hoveredNode, colorByIdentity]
+    [highlightedNodes, hoveredNode, colorByIdentity, competitiveMode]
   );
 
   // Link rendering
