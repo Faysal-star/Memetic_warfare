@@ -1,65 +1,188 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useMemo } from 'react';
+import { Network } from '@/src/schemas/network';
+import { Meme } from '@/src/schemas/meme';
+import { createNetwork } from '@/src/lib/network-pipeline';
+import { createMeme } from '@/src/lib/meme-pipeline';
+import AStarVisualizer from '@/src/components/AStarVisualizer';
+import { Button } from '@/components/ui/button';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function Home() {
+  // Initialize with default network and meme using useMemo
+  const initialNetwork = useMemo(() => createNetwork({
+    size: 30,
+    type: 'small-world',
+    identity_distribution: {
+      urban_professional: 0.3,
+      university_student: 0.2,
+      rural_traditional: 0.2,
+      suburban_family: 0.2,
+      tech_worker: 0.1,
+    },
+  }), []);
+
+  const initialMeme = useMemo(() => createMeme(
+    'political_conspiracy',
+    'Test Conspiracy Theory'
+  ), []);
+
+  const [network, setNetwork] = useState<Network>(initialNetwork);
+  const [meme, setMeme] = useState<Meme>(initialMeme);
+  const [loading, setLoading] = useState(false);
+
+  const generateNewNetwork = (type: 'small-world' | 'scale-free' | 'random') => {
+    setLoading(true);
+    setTimeout(() => {
+      const newNetwork = createNetwork({
+        size: 30,
+        type,
+        identity_distribution: {
+          urban_professional: 0.25,
+          university_student: 0.20,
+          rural_traditional: 0.20,
+          suburban_family: 0.20,
+          tech_worker: 0.15,
+        },
+      });
+      setNetwork(newNetwork);
+      setLoading(false);
+    }, 100);
+  };
+
+  const generateNewMeme = (contentType: 'political_conspiracy' | 'health_misinformation' | 'factual_news') => {
+    const titles = {
+      political_conspiracy: 'Political Conspiracy Theory',
+      health_misinformation: 'Health Misinformation',
+      factual_news: 'Factual News Article',
+    };
+    
+    const newMeme = createMeme(contentType, titles[contentType]);
+    setMeme(newMeme);
+  };
+
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+    <main className="h-screen flex flex-col bg-gray-50">
+      {/* Header */}
+      <div className="p-4 bg-white border-b shadow-sm">
+        <div className="max-w-full mx-auto">
+          <h1 className="text-2xl font-bold">Memetic Warfare - A* Influence Pathfinding</h1>
+          <p className="text-sm text-muted-foreground">
+            Visualize how information spreads through social networks using A* algorithm
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </div>
+
+      {/* Configuration Bar */}
+      <div className="p-3 bg-white border-b">
+        <div className="max-w-full mx-auto">
+          <Tabs defaultValue="network" className="w-full">
+            <TabsList className="grid w-64 grid-cols-2">
+              <TabsTrigger value="network">Network</TabsTrigger>
+              <TabsTrigger value="meme">Meme</TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="network" className="mt-3">
+              <div className="flex items-center gap-4 flex-wrap">
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => generateNewNetwork('small-world')}
+                    variant="outline"
+                    size="sm"
+                    disabled={loading}
+                  >
+                    Small-World
+                  </Button>
+                  <Button
+                    onClick={() => generateNewNetwork('scale-free')}
+                    variant="outline"
+                    size="sm"
+                    disabled={loading}
+                  >
+                    Scale-Free
+                  </Button>
+                  <Button
+                    onClick={() => generateNewNetwork('random')}
+                    variant="outline"
+                    size="sm"
+                    disabled={loading}
+                  >
+                    Random
+                  </Button>
+                </div>
+
+                <div className="flex gap-4 text-xs">
+                  <div>
+                    <span className="font-semibold">Nodes:</span> {network.nodes.length}
+                  </div>
+                  <div>
+                    <span className="font-semibold">Edges:</span> {network.edges.length}
+                  </div>
+                  <div>
+                    <span className="font-semibold">Avg Degree:</span>{' '}
+                    {network.metadata.avg_degree.toFixed(2)}
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+
+            <TabsContent value="meme" className="mt-3">
+              <div className="flex items-center gap-4 flex-wrap">
+                <div className="flex gap-2">
+                  <Button
+                    onClick={() => generateNewMeme('political_conspiracy')}
+                    variant="outline"
+                    size="sm"
+                  >
+                    Political
+                  </Button>
+                  <Button
+                    onClick={() => generateNewMeme('health_misinformation')}
+                    variant="outline"
+                    size="sm"
+                  >
+                    Health
+                  </Button>
+                  <Button
+                    onClick={() => generateNewMeme('factual_news')}
+                    variant="outline"
+                    size="sm"
+                  >
+                    Factual
+                  </Button>
+                </div>
+
+                <div className="flex gap-4 text-xs">
+                  <div>
+                    <span className="font-semibold">Title:</span> {meme.title}
+                  </div>
+                  <div>
+                    <span className="font-semibold">Bias:</span>{' '}
+                    {meme.attributes.political_bias.toFixed(2)}
+                  </div>
+                  <div>
+                    <span className="font-semibold">Accuracy:</span>{' '}
+                    {meme.attributes.factual_accuracy.toFixed(2)}
+                  </div>
+                  <div>
+                    <span className="font-semibold">Virality:</span>{' '}
+                    {meme.attributes.virality_factor.toFixed(2)}
+                  </div>
+                </div>
+              </div>
+            </TabsContent>
+          </Tabs>
         </div>
-      </main>
-    </div>
+      </div>
+
+      {/* Main Content - A* Visualizer with 3-column layout */}
+      <div className="flex-1 p-4 overflow-hidden">
+        <div className="h-full">
+          <AStarVisualizer network={network} meme={meme} />
+        </div>
+      </div>
+    </main>
   );
 }

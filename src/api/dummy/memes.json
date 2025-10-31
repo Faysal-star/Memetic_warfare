@@ -1,0 +1,85 @@
+{
+  "memes": [
+    {
+      "id": "meme_001",
+      "title": "Climate Change is a Hoax",
+      "content_type": "political_conspiracy",
+      "attributes": {
+        "political_bias": 0.8,
+        "emotional_intensity": 0.9,
+        "factual_accuracy": 0.2,
+        "complexity": 0.3,
+        "virality_factor": 0.8,
+        "source_credibility": 0.3
+      },
+      "timestamp": 1699000000000,
+      "generation": 0,
+      "parent_id": null
+    },
+    {
+      "id": "meme_002",
+      "title": "Vaccines Cause Autism",
+      "content_type": "health_misinformation",
+      "attributes": {
+        "political_bias": 0.0,
+        "emotional_intensity": 0.8,
+        "factual_accuracy": 0.1,
+        "complexity": 0.4,
+        "virality_factor": 0.7,
+        "source_credibility": 0.2
+      },
+      "timestamp": 1699000000000,
+      "generation": 0,
+      "parent_id": null
+    },
+    {
+      "id": "meme_003",
+      "title": "WHO Recommends Booster Shots",
+      "content_type": "factual_news",
+      "attributes": {
+        "political_bias": 0.0,
+        "emotional_intensity": 0.3,
+        "factual_accuracy": 0.9,
+        "complexity": 0.6,
+        "virality_factor": 0.3,
+        "source_credibility": 0.9
+      },
+      "timestamp": 1699000000000,
+      "generation": 0,
+      "parent_id": null
+    },
+    {
+      "id": "meme_004",
+      "title": "Green Energy Initiative Announced",
+      "content_type": "factual_news",
+      "attributes": {
+        "political_bias": -0.3,
+        "emotional_intensity": 0.4,
+        "factual_accuracy": 0.85,
+        "complexity": 0.7,
+        "virality_factor": 0.4,
+        "source_credibility": 0.85
+      },
+      "timestamp": 1699000000000,
+      "generation": 0,
+      "parent_id": null
+    },
+    {
+      "id": "meme_005",
+      "title": "Government Surveillance Conspiracy",
+      "content_type": "political_conspiracy",
+      "attributes": {
+        "political_bias": 0.6,
+        "emotional_intensity": 0.85,
+        "factual_accuracy": 0.25,
+        "complexity": 0.5,
+        "virality_factor": 0.75,
+        "source_credibility": 0.35
+      },
+      "timestamp": 1699000000000,
+      "generation": 0,
+      "parent_id": null
+    }
+  ]
+}
+

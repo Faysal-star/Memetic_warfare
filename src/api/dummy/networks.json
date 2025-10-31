@@ -1,0 +1,58 @@
+{
+  "default_small": {
+    "id": "network_small_1",
+    "name": "Small Community Network",
+    "config": {
+      "size": 20,
+      "type": "small-world",
+      "identity_distribution": {
+        "urban_professional": 0.3,
+        "university_student": 0.3,
+        "suburban_family": 0.4
+      }
+    }
+  },
+  "default_medium": {
+    "id": "network_medium_1",
+    "name": "Medium Social Network",
+    "config": {
+      "size": 50,
+      "type": "small-world",
+      "identity_distribution": {
+        "urban_professional": 0.25,
+        "university_student": 0.20,
+        "rural_traditional": 0.20,
+        "suburban_family": 0.20,
+        "tech_worker": 0.15
+      }
+    }
+  },
+  "scale_free_large": {
+    "id": "network_large_1",
+    "name": "Large Scale-Free Network",
+    "config": {
+      "size": 100,
+      "type": "scale-free",
+      "identity_distribution": {
+        "urban_professional": 0.3,
+        "university_student": 0.2,
+        "rural_traditional": 0.15,
+        "suburban_family": 0.2,
+        "tech_worker": 0.15
+      }
+    }
+  },
+  "polarized": {
+    "id": "network_polarized_1",
+    "name": "Polarized Communities",
+    "config": {
+      "size": 40,
+      "type": "small-world",
+      "identity_distribution": {
+        "urban_professional": 0.5,
+        "rural_traditional": 0.5
+      }
+    }
+  }
+}
+
