@@ -7,9 +7,11 @@ import { createNetwork } from '@/src/lib/network-pipeline';
 import { createMeme } from '@/src/lib/meme-pipeline';
 import AStarVisualizer from '@/src/components/AStarVisualizer';
 import CompetitiveMode from '@/src/components/CompetitiveMode';
+import CELFPropagationVisualizer from '@/src/components/CELFPropagationVisualizer';
+import StrategyComparison from '@/src/components/StrategyComparisonVisualizer';
 import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Swords, Target } from 'lucide-react';
+import { Swords, Target, Zap, BarChart3 } from 'lucide-react';
 
 export default function Home() {
   // Initialize with default network and meme using useMemo
@@ -70,9 +72,9 @@ export default function Home() {
       {/* Header */}
       <div className="p-4 bg-white border-b shadow-sm">
         <div className="max-w-full mx-auto">
-          <h1 className="text-2xl font-bold">Memetic Warfare - A* Influence Pathfinding</h1>
+          <h1 className="text-2xl font-bold">Memetic Warfare - Network Propagation Simulator</h1>
           <p className="text-sm text-muted-foreground">
-            Visualize how information spreads through social networks using A* algorithm
+            Visualize how information spreads through social networks using A*, CELF, and CELF++ algorithms
           </p>
         </div>
       </div>
@@ -180,9 +182,17 @@ export default function Home() {
       </div>
 
       {/* Main Content - Mode Selection */}
-      <div className="flex-1 p-4 overflow-hidden">
-        <Tabs defaultValue="astar" className="h-full flex flex-col">
-          <TabsList className="grid w-96 grid-cols-2 mb-4">
+      <div className="flex-1 p-4 overflow-auto">
+        <Tabs defaultValue="celf" className="h-full flex flex-col">
+          <TabsList className="grid w-full max-w-3xl grid-cols-4 mb-4">
+            <TabsTrigger value="celf" className="flex items-center gap-2">
+              <Zap className="w-4 h-4" />
+              CELF++ Propagation
+            </TabsTrigger>
+            <TabsTrigger value="comparison" className="flex items-center gap-2">
+              <BarChart3 className="w-4 h-4" />
+              Strategy Comparison
+            </TabsTrigger>
             <TabsTrigger value="astar" className="flex items-center gap-2">
               <Target className="w-4 h-4" />
               A* Pathfinding
@@ -192,6 +202,14 @@ export default function Home() {
               Competitive Mode
             </TabsTrigger>
           </TabsList>
+
+          <TabsContent value="celf" className="flex-1 m-0 data-[state=active]:flex">
+            <CELFPropagationVisualizer network={network} meme={meme} />
+          </TabsContent>
+
+          <TabsContent value="comparison" className="flex-1 m-0 overflow-auto">
+            <StrategyComparison networkSize={network.nodes.length} memeType={meme.content_type} />
+          </TabsContent>
 
           <TabsContent value="astar" className="flex-1 m-0 data-[state=active]:flex">
             <AStarVisualizer network={network} meme={meme} />

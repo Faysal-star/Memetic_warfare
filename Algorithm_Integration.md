@@ -12,7 +12,6 @@ Your simulation can showcase **THREE distinct AI algorithm categories**:
 3. **LOGIC-BASED MODE**: First-Order Logic for belief reasoning and fact-checking
 
 Each mode demonstrates different AI concepts while maintaining the core information diffusion theme.
-
 ---
 
 ## MODE 1: INFORMED SEARCH - TARGETED INFLUENCE PATHFINDING
